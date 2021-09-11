@@ -2,10 +2,12 @@ const notes = require("express").Router();
 const { readFromFile, readAndAppend, readAndDelete } = require("../helpers/fsUtils");
 const uuid = require("../helpers/uuid");
 
+// Returns the db.json file
 notes.get("/", (req, res) => {
     readFromFile("./db/db.json").then((data) => res.json(JSON.parse(data)));
 });
 
+// Create a new note and adds it to the existing db.json file
 notes.post("/", (req, res) => {
     const { title, text } = req.body;
 
@@ -23,11 +25,10 @@ notes.post("/", (req, res) => {
     }
 });
 
+// Handles the delete method by passing the id parameter to the readAndDelete method
 notes.delete('/:id', (req, res) => {
 
     const requestedId = req.params.id;
-
-    console.log(requestedId);
 
     if (requestedId) {
 
